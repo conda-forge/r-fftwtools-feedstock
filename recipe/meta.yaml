@@ -17,8 +17,7 @@ source:
 build:
   number: 0
   # unsatisfiable dependencies ?
-  skip: true  # [32]
-
+  skip: true  # [win]
   rpaths:
     - lib/R/lib/
     - lib/
