@@ -15,7 +15,8 @@ source:
   sha256: 4641c8cd70938c2a8bde0b6da6cf7f83e96175ef52f1ca42ec3920a1dabf1bdb
 
 build:
-  number: 0
+  merge_build_host: True  # [win]
+  number: 1
   # unsatisfiable dependencies ?
   skip: true  # [win]
   rpaths:
@@ -24,16 +25,16 @@ build:
 
 requirements:
   build:
+    - posix                # [win]
+    - {{ compiler('c') }}        # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
+  host:
     - r-base
     - fftw 3.3.6
-    - posix                # [win]
-    - {{native}}toolchain  # [win]
-    - gcc                  # [not win]
 
   run:
     - r-base
     - fftw 3.3.6
-    - libgcc  # [not win]
 
 test:
   commands:
