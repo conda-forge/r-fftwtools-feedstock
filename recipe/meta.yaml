@@ -30,11 +30,11 @@ requirements:
     - {{ compiler('m2w64_c') }}  # [win]
   host:
     - r-base
-    - fftw 3.3.6
+    - fftw 3.3.8
 
   run:
     - r-base
-    - fftw 3.3.6
+    - fftw 3.3.8
 
 test:
   commands:
