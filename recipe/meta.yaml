@@ -1,4 +1,4 @@
-{% set version = "0.9-8" %}
+{% set version = "0.9-9" %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -12,11 +12,11 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/fftwtools_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/fftwtools/fftwtools_{{ version }}.tar.gz
-  sha256: 4641c8cd70938c2a8bde0b6da6cf7f83e96175ef52f1ca42ec3920a1dabf1bdb
+  sha256: a9273b7e495d228d740ab4525467e4bbefe8614bd2d97e7234017f1305f51441
 
 build:
   merge_build_host: true  # [win]
-  number: 1004
+  number: 0
   # unsatisfiable dependencies ?
   skip: true  # [win]
   rpaths:
