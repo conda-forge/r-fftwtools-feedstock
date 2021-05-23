@@ -1,5 +1,4 @@
-{% set version = "0.9-10" %}
-
+{% set version = '0.9-11' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,14 +7,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: fftwtools_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/fftwtools_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/fftwtools/fftwtools_{{ version }}.tar.gz
-  sha256: 777129fc51af61beb2d96a91e1bff58766a35e3cfd3d4e0e56e8e883a865f547
+    - {{ cran_mirror }}/src/contrib/fftwtools_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/fftwtools/fftwtools_{{ version }}.tar.gz
+  sha256: f1f0c9a9086c7b2f72c5fb0334717cc917213a004eaef8448eab4940c9852c7f
 
 build:
-  merge_build_host: true  # [win]
+  merge_build_host: True  # [win]
   number: 0
   # unsatisfiable dependencies ?
   skip: true  # [win]
@@ -25,9 +23,18 @@ build:
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{ posix }}filesystem        # [win]
+    - {{ posix }}sed               # [win]
+    - {{ posix }}grep              # [win]
+    - {{ posix }}autoconf
+    - {{ posix }}automake          # [not win]
+    - {{ posix }}automake-wrapper  # [win]
+    - {{ posix }}pkg-config
+    - {{ posix }}make
+    - {{ posix }}coreutils         # [win]
+    - {{ posix }}zip               # [win]
   host:
     - r-base
     - fftw 3.3.8
@@ -35,27 +42,43 @@ requirements:
   run:
     - r-base
     - fftw 3.3.8
+    - {{ native }}gcc-libs         # [win]
 
 test:
   commands:
-    - $R -e "library('fftwtools')"  # [not win]
+    - $R -e "library('fftwtools')"           # [not win]
     - "\"%R%\" -e \"library('fftwtools')\""  # [win]
 
 about:
   home: https://github.com/krahim/fftwtools
   license: GPL-2.0-or-later
-  summary: "Provides a wrapper for several 'FFTW' functions. This package provides access to the two-dimensional 'FFT', the multivariate 'FFT', and the one-dimensional real to complex 'FFT' using the 'FFTW3' library. The package includes the functions fftw() and mvfftw() which are designed to mimic the functionality of the\
-    \ R functions fft() and mvfft(). The 'FFT' functions have a parameter that allows them to not return the redundant complex conjugate when the input is real data. "
-
-  license_family: GPL3
-
+  summary: Provides a wrapper for several 'FFTW' functions. This package provides access to the
+    two-dimensional 'FFT', the multivariate 'FFT', and the one-dimensional real to complex
+    'FFT' using the 'FFTW3' library. The package includes the functions fftw() and mvfftw()
+    which are designed to mimic the functionality of the R functions fft() and mvfft().
+    The 'FFT' functions have a parameter that allows them to not return the redundant
+    complex conjugate when the input is real data.
+  license_family: GPL2
   license_file:
-    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
+
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - dpryan79
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
+
+# Package: fftwtools
+# Version: 0.9-11
+# Title: Wrapper for 'FFTW3' Includes: One-Dimensional, Two-Dimensional, Three-Dimensional, and Multivariate Transforms
+# Author: Karim Rahim <karim.rahim@queensu.ca>
+# Maintainer: Karim Rahim <karim.rahim@queensu.ca>
+# Depends: R (>= 3.0)
+# SystemRequirements: fftw3 (libfftw3-dev (deb), or fftw-devel (rpm))
+# Suggests: fftw
+# Description: Provides a wrapper for several 'FFTW' functions. This package provides access to the two-dimensional 'FFT', the multivariate 'FFT', and the one-dimensional real to complex 'FFT' using the 'FFTW3' library. The package includes the functions fftw() and mvfftw() which are designed to mimic the functionality of the R functions fft() and mvfft(). The 'FFT' functions have a parameter that allows them to not return the redundant complex conjugate when the input is real data.
+# License: GPL (>= 2)
+# ByteCompile: true
+# URL: https://github.com/krahim/fftwtools
+# NeedsCompilation: yes
+# Packaged: 2021-02-27 23:01:27 UTC; karim
+# Repository: CRAN
+# Date/Publication: 2021-03-01 14:10:02 UTC
