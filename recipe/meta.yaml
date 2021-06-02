@@ -14,9 +14,7 @@ source:
 
 build:
   merge_build_host: True  # [win]
-  number: 0
-  # unsatisfiable dependencies ?
-  skip: true  # [win]
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
@@ -37,11 +35,10 @@ requirements:
     - {{ posix }}zip               # [win]
   host:
     - r-base
-    - fftw 3.3.8
-
+    - fftw
   run:
     - r-base
-    - fftw 3.3.8
+    - fftw
     - {{ native }}gcc-libs         # [win]
 
 test:
